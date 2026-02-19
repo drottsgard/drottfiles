@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Passthrough: delegates to repo-local pre-push hook (Husky or .git/hooks)
+
+REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null)
+
+if [ -n "$REPO_ROOT" ] && [ -x "$REPO_ROOT/.husky/pre-push" ]; then
+    . "$REPO_ROOT/.husky/pre-push" "$@"
+elif [ -n "$REPO_ROOT" ] && [ -x "$REPO_ROOT/.git/hooks/pre-push" ]; then
+    "$REPO_ROOT/.git/hooks/pre-push" "$@"
+fi

@@ -1,0 +1,9 @@
+os:
+  # Use OSC 52 to copy to the local macOS clipboard over SSH.
+  # Detects tmux and wraps in passthrough escape sequence when needed.
+  copyToClipboardCmd: >
+    if [[ "$TERM" =~ ^(screen|tmux) ]]; then
+      printf "\033Ptmux;\033\033]52;c;$(printf {{text}} | base64 -w 0)\a\033\\" > /dev/tty
+    else
+      printf "\033]52;c;$(printf {{text}} | base64 -w 0)\a" > /dev/tty
+    fi

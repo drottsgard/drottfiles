@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Shared commit-msg hook: auto-prepends ticket number (EL-XXXX) from branch name
+# if the commit message doesn't already contain one.
+
+COMMIT_MSG_FILE="$1"
+COMMIT_MSG=$(cat "$COMMIT_MSG_FILE")
+
+# Skip merge commits, amend commits, etc.
+if echo "$COMMIT_MSG" | head -1 | grep -qE '^(Merge |Revert )'; then
+    exit 0
+fi
+
+# Check if the commit message already contains a ticket number
+if echo "$COMMIT_MSG" | grep -qE 'EL-[0-9]+'; then
+    # Already has a ticket number, nothing to do
+    :
+else
+    # Extract ticket number from current branch name
+    BRANCH=$(git symbolic-ref --short HEAD 2>/dev/null)
+    TICKET=$(echo "$BRANCH" | grep -oE 'EL-[0-9]+' | head -1)
+
+    if [ -n "$TICKET" ]; then
+        # Prepend ticket number to commit message
+        echo "$TICKET $COMMIT_MSG" > "$COMMIT_MSG_FILE"
+    fi
+fi
+
+# Chain to repo-local hooks if they exist
+REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null)
+
+if [ -n "$REPO_ROOT" ] && [ -x "$REPO_ROOT/.husky/commit-msg" ]; then
+    . "$REPO_ROOT/.husky/commit-msg" "$@"
+elif [ -n "$REPO_ROOT" ] && [ -x "$REPO_ROOT/.git/hooks/commit-msg" ]; then
+    "$REPO_ROOT/.git/hooks/commit-msg" "$@"
+fi

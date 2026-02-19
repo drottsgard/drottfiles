@@ -1,0 +1,20 @@
+format = """
+$directory\
+$git_branch\
+$git_status\
+$nodejs\
+$docker_context\
+$character"""
+
+[character]
+success_symbol = "[❯](green)"
+error_symbol = "[❯](red)"
+
+[directory]
+truncation_length = 3
+
+[git_branch]
+format = "[$branch]($style) "
+
+[git_status]
+format = '([$all_status$ahead_behind]($style) )'

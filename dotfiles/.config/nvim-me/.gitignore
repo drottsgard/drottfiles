@@ -1,0 +1,8 @@
+# lazy.nvim
+lazy-lock.json
+plugin/
+
+# Neovim
+*.swp
+*.swo
+*~

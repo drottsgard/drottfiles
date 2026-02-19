@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Passthrough: delegates to repo-local pre-commit hook (Husky or .git/hooks)
+
+REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null)
+
+if [ -n "$REPO_ROOT" ] && [ -x "$REPO_ROOT/.husky/pre-commit" ]; then
+    . "$REPO_ROOT/.husky/pre-commit" "$@"
+elif [ -n "$REPO_ROOT" ] && [ -x "$REPO_ROOT/.git/hooks/pre-commit" ]; then
+    "$REPO_ROOT/.git/hooks/pre-commit" "$@"
+fi

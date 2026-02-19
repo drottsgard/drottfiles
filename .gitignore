@@ -1,0 +1,19 @@
+# Secrets and credentials
+.env
+.env.*
+*.pem
+*.key
+*.secrets
+credentials.json
+
+# Nested git repos (managed separately)
+dotfiles/.config/kickstart.nvim/
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# Editor artifacts
+*.swp
+*.swo
+*~
