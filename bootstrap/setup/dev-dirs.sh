@@ -9,8 +9,6 @@ ELETIVE_EMAIL="alexander.drottsgard@eletive.com"
 DROTTSGARD_DIR="$HOME/dev/drottsgard"
 DROTTSGARD_EMAIL="alexander@drottsgard.com"
 
-GLOBAL_GITCONFIG="$HOME/.gitconfig"
-
 # Create development directories
 for dir in "$ELETIVE_DIR" "$DROTTSGARD_DIR"; do
 	if [ -d "$dir" ]; then
@@ -48,31 +46,6 @@ else
 	    rebase = true
 	EOF
 	echo "Created $DROTTSGARD_DIR/.gitconfig"
-fi
-
-# Append includeIf entries to ~/.gitconfig
-touch "$GLOBAL_GITCONFIG"
-
-if ! grep -q "gitdir:~/dev/eletive/" "$GLOBAL_GITCONFIG" 2>/dev/null; then
-	cat >> "$GLOBAL_GITCONFIG" <<-EOF
-
-	[includeIf "gitdir:~/dev/eletive/"]
-	    path = ~/dev/eletive/.gitconfig
-	EOF
-	echo "Added eletive includeIf to ~/.gitconfig"
-else
-	echo "eletive includeIf already in ~/.gitconfig, skipping."
-fi
-
-if ! grep -q "gitdir:~/dev/drottsgard/" "$GLOBAL_GITCONFIG" 2>/dev/null; then
-	cat >> "$GLOBAL_GITCONFIG" <<-EOF
-
-	[includeIf "gitdir:~/dev/drottsgard/"]
-	    path = ~/dev/drottsgard/.gitconfig
-	EOF
-	echo "Added drottsgard includeIf to ~/.gitconfig"
-else
-	echo "drottsgard includeIf already in ~/.gitconfig, skipping."
 fi
 
 echo ""

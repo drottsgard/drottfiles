@@ -1,0 +1,9 @@
+[user]
+	email = alexander@drottsgard.com
+	name = Alexander Drottsgård
+
+[includeIf "gitdir:~/dev/eletive/"]
+	path = ~/dev/eletive/.gitconfig
+
+[includeIf "gitdir:~/dev/drottsgard/"]
+	path = ~/dev/drottsgard/.gitconfig
