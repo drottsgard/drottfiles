@@ -1,5 +1,4 @@
 - git absorb
-- aws cli
 - zsh plugins
   - autocomplete
   - syntax highlight

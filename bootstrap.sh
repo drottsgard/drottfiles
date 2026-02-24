@@ -20,8 +20,9 @@ sudo -v
 # 9. opencode        – standalone (curl-based install)
 # 10. fzf            – fuzzy finder (used by zshrc for history search)
 # 11. stow           – symlink manager for dotfiles
-# 12. Symlinks       – links dotfiles/ into $HOME via stow
-# 13. Dev dirs       – project directory structure and git identity
+# 12. aws-cli        – AWS CLI v2 (zip installer, auto-detects arch)
+# 13. Symlinks       – links dotfiles/ into $HOME via stow
+# 14. Dev dirs       – project directory structure and git identity
 
 scripts=(
 	bootstrap/setup/swap.sh
@@ -37,6 +38,7 @@ scripts=(
 	bootstrap/install/ripgrep.sh
 	bootstrap/install/fzf.sh
 	bootstrap/install/stow.sh
+	bootstrap/install/aws-cli.sh
 	bootstrap/setup/symlinks.sh
 	bootstrap/setup/dev-dirs.sh
 )

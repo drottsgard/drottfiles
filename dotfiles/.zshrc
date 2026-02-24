@@ -30,6 +30,10 @@ reload() {
 # Starship prompt
 eval "$(starship init zsh)"
 
+# aws cli completions
+autoload bashcompinit && bashcompinit
+complete -C '/usr/local/bin/aws_completer' aws
+
 # bun completions
 [ -s "/home/alex/.bun/_bun" ] && source "/home/alex/.bun/_bun"
 
