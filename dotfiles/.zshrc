@@ -1,3 +1,12 @@
+# SSH agent forwarding fix for tmux (see ssh-agent-forwarding-problem.md)
+# When we SSH in with agent forwarding, update a stable symlink to the current
+# socket. All shells use the symlink path, so even old tmux panes pick up the
+# new agent after reconnecting.
+if [ -S "$SSH_AUTH_SOCK" ] && [ "$SSH_AUTH_SOCK" != "$HOME/.ssh/ssh_auth_sock" ]; then
+	ln -sf "$SSH_AUTH_SOCK" "$HOME/.ssh/ssh_auth_sock"
+fi
+export SSH_AUTH_SOCK="$HOME/.ssh/ssh_auth_sock"
+
 # Path
 export PATH="$HOME/.opencode/bin:$HOME/.local/bin:$PATH"
 
