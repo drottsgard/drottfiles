@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+set -e
+
+# Fuzzy-find a directory and create/switch to a tmux session for it.
+# Intended to be called from a tmux keybinding (popup or new window).
+
+selected=$(find "$HOME" -mindepth 1 -maxdepth 3 -type d \
+	! -path '*/.git/*' \
+	! -path '*/.git' \
+	! -path '*/node_modules/*' \
+	! -path '*/node_modules' \
+	! -path '*/.cache/*' \
+	! -path '*/.cache' \
+	! -path '*/.local/share/*' \
+	! -path '*/.nvm/*' \
+	! -path '*/.bun/*' \
+	! -path '*/.npm/*' \
+	! -path '*/.config/nvim/lazy/*' \
+	2>/dev/null | sort | fzf --prompt="Directory: ")
+
+if [ -z "$selected" ]; then
+	exit 0
+fi
+
+# Default session name to the directory basename
+default_name=$(basename "$selected")
+
+# Prompt for session name (uses terminal, works in tmux popup)
+printf "Session name (%s): " "$default_name"
+read -r session_name
+session_name="${session_name:-$default_name}"
+
+# Replace dots/spaces with underscores (tmux doesn't like dots in names)
+session_name=$(echo "$session_name" | tr './ ' '_')
+
+# If session already exists, just switch to it
+if tmux has-session -t="$session_name" 2>/dev/null; then
+	tmux switch-client -t "$session_name"
+	exit 0
+fi
+
+# Create and switch
+tmux new-session -d -s "$session_name" -c "$selected"
+tmux switch-client -t "$session_name"
