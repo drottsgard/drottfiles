@@ -469,7 +469,7 @@ local on_attach = function(_, bufnr)
 
   nmap('<leader>f', function()
     require("conform").format({ timeout_ms = 5000 })
-  end, '[F]ormat buffer (eslint + prettier)')
+  end, '[F]ormat buffer')
 end
 
 -- Enable the following language servers
@@ -498,12 +498,6 @@ local servers = {
       },
     },
   },
-  -- ESLint LSP disabled — it spawns vscode-eslint-language-server (~1.3 GB RAM)
-  -- which duplicates what eslint_d already does via conform on save.
-  -- Since eslint fixes are applied automatically on save (and via <leader>f),
-  -- there's no need for inline ESLint diagnostics. TypeScript errors still
-  -- show inline via typescript-tools.
-  -- eslint = {},
   tailwindcss = {
     settings = {
       tailwindCSS = {
@@ -552,6 +546,8 @@ for server_name, server_opts in pairs(servers) do
   }
   vim.lsp.config(server_name, config)
 end
+
+vim.lsp.enable('oxlint')
 
 -- Use LspAttach autocmd instead of per-server on_attach
 vim.api.nvim_create_autocmd('LspAttach', {
