@@ -4,7 +4,7 @@ set -e
 # Fuzzy-find a directory and create/switch to a tmux session for it.
 # Intended to be called from a tmux keybinding (popup or new window).
 
-selected=$(find "$HOME" -mindepth 1 -maxdepth 3 -type d \
+selected=$(find "$HOME" -mindepth 1 -maxdepth 5 -type d \
 	! -path '*/.git/*' \
 	! -path '*/.git' \
 	! -path '*/node_modules/*' \
